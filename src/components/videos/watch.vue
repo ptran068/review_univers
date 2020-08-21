@@ -11,7 +11,10 @@
             </div>
             <hr>
             <div class="name-video">
-                <p class="text-video">{{video.name}}</p>
+                <p class="text-video">{{video.video.name}}</p>
+            </div>
+               <div class="name-video">
+                <p class="text-video">{{video.video.author.name}}</p>
             </div>
         </div>
         <div class="related-title">
@@ -19,16 +22,16 @@
                 <strong>Related Videos</strong>
             </div>
             <div class="related-main">
-                <div class="related">
+                <div class="related" v-for="it in video.relatedVideo" :key="it.id">
                 <div class="img">
-                    <img style="width:200px; height:120;" src="https://nld.mediacdn.vn/thumb_w/540/2020/5/29/doi-hoa-tim-8-15907313395592061395682.png">
+                    <img style="width:200px; height:120;" :src="it.thumbnail">
                 </div>
                 <div class="detail">
                         <div class="details">
-                            <span> ten</span>
+                            <span> {{it.name}}</span>
                         </div>
                         <div class="details">
-                            <span> ten</span>
+                            <span> {{it.des}}</span>
                         </div>
                     
                     </div>
@@ -74,8 +77,7 @@ export default {
         async getVideos() {
             const data = await getOne(this.$route.params.id)
             this.video = data.data
-            this.id += this.video.youtubeId
-            console.log(this.id)
+            this.id += this.video.video.youtubeId
         }
     },
     
@@ -103,7 +105,8 @@ export default {
 }
 .related-title {
     margin-left: 100px;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
+    width: 500px;
 }
 .name-video {
     margin-top: 10px;

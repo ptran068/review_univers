@@ -25,11 +25,18 @@ class VideoService extends BaseService {
     return 'video'
   }
 
-  getVideos () {
+  getVideos (key) {
     const token = getToken()
 
-    const user = this.request({ auth: true }).get(`/${this.entity}`, { token })
+    const user = this.request({ auth: true }).get(`/${this.entity}`, { token, key })
     return user
+  }
+
+  crawl () {
+    const token = getToken()
+
+    const video = this.request({ auth: true }).get(`/${this.entity}/crawl`, { token })
+    return video
   }
 }
 

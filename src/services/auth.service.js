@@ -54,6 +54,11 @@ class UserService extends BaseService {
     const user = this.request({ auth: true }).post(`/${this.entity}/decode-token`, { token })
     return user
   }
+
+  crawl ({key}) {
+    const video = this.request({ auth: true }).post(`/${this.entity}/crawl`, {key})
+    return video
+  }
 }
 
 export default new UserService()

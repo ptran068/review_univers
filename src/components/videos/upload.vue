@@ -2,40 +2,49 @@
     <div class="wraper">
         <div class="upload">
             <div class="inp">
-                <input class="search" placeholder="Type a name">
+                <v-text-field v-model="key" class="search" placeholder="Type a name"></v-text-field>
             </div>
             <div class="btn">
-                <button type="button" id="mobile-search-btn"><i class="fa fa-search"></i></button>
+                <v-btn @click="crawlVideos" type="button" id="mobile-search-btn"><i class="fa fa-search"></i></v-btn>
             </div>
         </div>
-        <div class="result">
+        <div class="result" v-for="video in videos" :key="video.id.videoId">
             <div class="content">
                 <div class="img">
-                    <img style="width:200px; height:120;" src="https://nld.mediacdn.vn/thumb_w/540/2020/5/29/doi-hoa-tim-8-15907313395592061395682.png">
+                    <img style="width:200px; height:120;" :src="video.snippet.thumbnails.high.url">
                 </div>
                 <div class="detail">
                     <div class="detail">
-                        <span> ten</span>
+                        <span> {{video.snippet.title}}</span>
                     </div>
                     <div class="detail">
-                        <span> ten</span>
+                        <span> {{video.snippet.description}}</span>
                     </div>
-                    <div class="detail">
-                        <span> ten</span>
-                    </div>
-                    <div class="detail">
-                        <button style="color: red;"> upload</button>
-                    </div>
+
                 </div>
                 
             </div>
+            
         </div>
     </div>
 
 </template>
 
 <script>
+import UserService from '../../services/auth.service'
+
 export default {
+    data: () => ({
+        key: '',
+        videos: []
+    }),
+
+    methods: {
+        async crawlVideos() {
+            const data = await UserService.crawl({key: this.key})
+            this.videos = data.data.data.items
+        }
+    },
     
 }
 </script>
@@ -57,7 +66,7 @@ export default {
 }
 .content {
     display: flex;
-    width: 300px;
+    width: 500px;
     height: 100%;
     margin-left: 600px;
     margin-top: 40px;
